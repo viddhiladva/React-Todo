@@ -1,24 +1,34 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Input from './component/Input';
+import List from './component/List';
 
 function App() {
+  const [list,getList] = useState([]);
+  let addList=(inputText)=>{
+    if(inputText !== ' ')
+    getList([...list,inputText]);
+  }
+  const deleteItem = (key)=>{
+    let newItem = [...list];
+    newItem.splice(key,1)
+    getList([...newItem])
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className='main-container'>
+        <div className='center-container'>
+        <Input addList={addList} />
+        <h1 className='app-heading'>your list..</h1>
+        <hr/>
+       {list.map((listItem,i)=>{
+        return(
+          <List key={i} item={listItem} delete={deleteItem} index={i}/>
+        )
+       })}
+        </div>
+      </div>
+    </>
   );
 }
 
